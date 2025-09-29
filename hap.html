@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClarityOps | Free Cloud Cost Management for Everyone</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* CSS Variables for the dark purple/magenta theme */
+        :root {
+            --primary-color: #e400ff; /* Vibrant magenta */
+            --primary-hover: #c300db;
+            --background-color: #110e1f; /* Main dark purple background */
+            --surface-color: #1c182f; /* Slightly lighter for cards */
+            --accent-color: #00d1ff; /* A vibrant cyan for secondary accents */
+            --text-color: #f0f4f8; /* Off-white for high-emphasis text */
+            --text-muted: rgba(240, 244, 248, 0.7); /* Muted text for paragraphs */
+            --border-color: rgba(255, 255, 255, 0.15);
+            --font-family: 'Inter', sans-serif;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Global Styles & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+        
+        section:not(#hero):not(footer) {
+             border-top: 1px solid var(--border-color);
+        }
+
+        h1, h2, h3 {
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 3.8rem; /* Increased font size for hero */
+            letter-spacing: -1.5px;
+        }
+
+        h2 {
+            font-size: 2.75rem;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            color: var(--text-muted);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(228, 0, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(228, 0, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* --- Header & Navigation --- */
+        .header {
+            background: rgba(17, 14, 31, 0.8); /* From --background-color */
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        
+        .logo i {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links .btn {
+            padding: 0.6rem 1.2rem;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+            background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        #hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+            max-width: 1200px;
+        }
+
+        .hero-content {
+            text-align: left;
+        }
+
+        #hero .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin: 1.5rem 0 2.5rem;
+            max-width: 500px;
+        }
+        
+        #hero .btn-primary {
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+        }
+
+        .hero-animation {
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #globe-canvas {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 600px;
+            max-height: 600px;
+            cursor: grab;
+        }
+
+
+        /* --- Features Section --- */
+        #features {
+            background-color: var(--surface-color);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--background-color);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: inline-block;
+        }
+        
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        /* --- Key Capabilities Section (Tabs) --- */
+        #capabilities {
+            background: var(--background-color);
+        }
+        .capabilities-layout {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        .capabilities-nav {
+            flex: 0 0 280px; /* Fixed width for the navigation */
+        }
+        .capability-tab-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .capability-tab-link:hover {
+            background-color: var(--surface-color);
+            color: var(--primary-color);
+        }
+        .capability-tab-link.active {
+            color: var(--primary-color);
+            background-color: var(--surface-color);
+            border-left-color: var(--primary-color);
+            font-weight: 600;
+        }
+        .capabilities-content-area {
+            flex: 1;
+        }
+        .capability-pane {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .capability-pane.active {
+            display: block;
+        }
+        .capability-pane p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .capability-pane img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* --- Solutions Section --- */
+        #solutions {
+            background-color: var(--surface-color);
+        }
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .solution-card {
+            background: var(--background-color);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        .solution-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+        .solution-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* --- Resources Section --- */
+        #resources {
+            background-color: var(--background-color);
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .resource-card {
+            background: var(--surface-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            overflow: hidden; /* To keep image corners rounded */
+        }
+        .resource-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        .resource-card img {
+            width: 100%;
+            display: block;
+        }
+        .resource-card-content {
+            padding: 1.5rem;
+        }
+        .resource-card-content a {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .resource-card-content a:hover {
+            color: var(--primary-color);
+        }
+        .read-more-btn-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* --- Team Section --- */
+        #team {
+            background-color: var(--surface-color);
+        }
+        #team h2, #team .section-subtitle {
+            color: #fff;
+        }
+        #team .section-subtitle {
+             color: var(--text-muted);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        .team-card {
+            background: #1c182f;
+            border-radius: 16px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+         .team-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            padding-top: 150%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(228, 0, 255, 0.2) 0%, rgba(142, 45, 226, 0) 70%);
+            transform: translate(-50%, -50%);
+            transition: opacity 0.5s;
+            opacity: 0;
+            z-index: -1;
+        }
+        .team-card:hover::before {
+            opacity: 1;
+        }
+        .team-card-image {
+            background: var(--primary-color);
+            padding: 0.25rem;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+        .team-card-image img {
+            width: 100%;
+            display: block;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+        }
+        .team-card-content {
+            padding: 1.5rem;
+        }
+        .team-card-content h3 {
+            font-size: 1.25rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        .team-card-content .role {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .team-card-content .bio {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            min-height: 80px;
+        }
+        .team-socials a {
+            color: var(--text-muted);
+            margin: 0 0.5rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .team-socials a:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+
+        /* --- Integrations Section --- */
+        #integrations {
+             background-color: var(--background-color);
+        }
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+        
+        .logos .logo-item {
+            font-size: 3.5rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+            transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+        }
+        .logos .logo-item:hover {
+            color: var(--text-color);
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        
+        /* --- CTA Section --- */
+        #cta {
+            background: var(--surface-color);
+            text-align: center;
+        }
+        #cta .container {
+             max-width: 700px;
+        }
+        #cta h2 {
+            color: var(--text-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--background-color);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 3rem 0;
+            font-size: 0.9rem;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.25rem; }
+            #hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content {
+                order: 2; /* Move text below animation on smaller screens */
+            }
+             .hero-animation {
+                order: 1;
+                min-height: 350px;
+            }
+            #hero .hero-subtitle {
+                margin: 1.5rem auto 2.5rem;
+            }
+            .features-grid, .solutions-grid, .resources-grid, .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .capabilities-layout {
+                flex-direction: column;
+            }
+            .capabilities-nav {
+                flex: 0 0 auto;
+                display: flex;
+                overflow-x: auto;
+            }
+             .capability-tab-link {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            section { padding: 4rem 0; }
+            
+            .nav-links {
+                position: fixed;
+                top: 65px; /* Height of header */
+                right: -100%;
+                width: 80%;
+                height: calc(100vh - 65px);
+                background: var(--background-color);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 2rem;
+                transition: right 0.5s ease-in-out;
+                border-left: 1px solid var(--border-color);
+                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 1.5rem 0;
+                width: 100%;
+            }
+             .nav-links a {
+                font-size: 1.2rem;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .features-grid, .solutions-grid, .resources-grid {
+                grid-template-columns: 1fr;
+            }
+             .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                 row-gap: 3rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header class="header">
+        <nav class="navbar container">
+            <a href="#" class="logo"><i class="fas fa-chart-line"></i> ClarityOps</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#capabilities">Capabilities</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#integrations">Integrations</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#" class="btn btn-primary">Sign Up Free</a></li>
+            </ul>
+            <div class="hamburger"><i class="fas fa-bars"></i></div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Optimize your cloud from code to production in just a few clicks</h1>
+                    <p class="hero-subtitle">Get your apps to market fast with ClarityOps—a fully managed solution that's super simple to set up with cost-effective pricing so you can grow and scale with ease.</p>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+                <div class="hero-animation">
+                    <canvas id="globe-canvas"></canvas>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Team Section -->
+        <section id="team">
+          <div class="container">
+              <h2>Meet Our Team</h2>
+              <p class="section-subtitle">The innovative minds building the future of cloud management. Passionate, dedicated, and always coding.</p>
+              <div class="team-grid">
+                  <!-- Team Member 1 -->
+                  <div class="team-card">
+                      <div class="team-card-image">
+                           <img src="https://placehold.co/400x400/1c182f/f0f4f8?text=Dev" alt="Developer Photo">
+                      </div>
+                      <div class="team-card-content">
+                          <h3>Albert Flores</h3>
+                          <p class="role">Co-Founder</p>
+                          <p class="bio">Growing up, I was always the quiet one in the room, content to observe and listen rather than speak up.</p>
+                          <div class="team-socials">
+                              <a href="#"><i class="fas fa-paper-plane"></i></a>
+                              <a href="#"><i class="fab fa-twitter"></i></a>
+                              <a href="#"><i class="fab fa-instagram"></i></a>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Team Member 2 -->
+                  <div class="team-card">
+                      <div class="team-card-image">
+                           <img src="https://placehold.co/400x400/1c182f/f0f4f8?text=Dev" alt="Developer Photo">
+                      </div>
+                      <div class="team-card-content">
+                          <h3>Theresa Webb</h3>
+                          <p class="role">CMO</p>
+                          <p class="bio">I realized that my reluctance to speak up was holding me back from truly connecting with others and pursuing.</p>
+                           <div class="team-socials">
+                              <a href="#"><i class="fas fa-paper-plane"></i></a>
+                              <a href="#"><i class="fab fa-twitter"></i></a>
+                              <a href="#"><i class="fab fa-instagram"></i></a>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Team Member 3 -->
+                  <div class="team-card">
+                       <div class="team-card-image">
+                           <img src="https://placehold.co/400x400/1c182f/f0f4f8?text=Dev" alt="Developer Photo">
+                      </div>
+                      <div class="team-card-content">
+                          <h3>Bessie Cooper</h3>
+                          <p class="role">Director</p>
+                          <p class="bio">The mere thought of standing in front of my peers made my heart race, but I knew it was time to face my fears.</p>
+                          <div class="team-socials">
+                              <a href="#"><i class="fas fa-paper-plane"></i></a>
+                              <a href="#"><i class="fab fa-twitter"></i></a>
+                              <a href="#"><i class="fab fa-instagram"></i></a>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Team Member 4 -->
+                  <div class="team-card">
+                       <div class="team-card-image">
+                           <img src="happy.png" alt="Developer Photo">
+                      </div>
+                      <div class="team-card-content">
+                          <h3>Savannah Nguyen</h3>
+                          <p class="role">CMO</p>
+                          <p class="bio">As I began speaking, I felt the initial tremors in my voice, but with each passing moment, something happened.</p>
+                           <div class="team-socials">
+                              <a href="#"><i class="fas fa-paper-plane"></i></a>
+                              <a href="#"><i class="fab fa-twitter"></i></a>
+                              <a href="#"><i class="fab fa-instagram"></i></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+        
+        <!-- Key Capabilities Section -->
+        <section id="capabilities">
+            <div class="container">
+                <h2>Key Capabilities</h2>
+                <p class="section-subtitle">Dive deep into the features that give you complete control and visibility over your cloud infrastructure.</p>
+                <div class="capabilities-layout">
+                    <div class="capabilities-nav">
+                        <button class="capability-tab-link active" data-target="cap-1">
+                            Resource & Organization Management <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-2">
+                            Custom Dashboards <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-3">
+                            Cost Allocation and Chargeback <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-4">
+                            Rightsizing and Waste Reduction <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-5">
+                            Governance and Automation <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-6">
+                            Governance and Automation <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-7">
+                            Governance and Automation <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-8">
+                            Governance and Automation <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="capability-tab-link" data-target="cap-9">
+                            Governance and Automation <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="capabilities-content-area">
+                        <div id="cap-1" class="capability-pane active">
+                            <p>Align cloud data to your business for greater control over user access. Dynamically allocate assets to business groups. View and analyze your cloud environment to drive accountability for cost and usage.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Cost+History+Report" alt="Cost History Report">
+                        </div>
+                        <div id="cap-2" class="capability-pane">
+                            <p>Build and save personalized dashboards with the widgets that matter most to you. Track specific service costs, monitor team budgets, or visualize optimization progress, all in one place.</p>
+                             <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Custom+Dashboard" alt="Custom Dashboard">
+                        </div>
+                        <div id="cap-3" class="capability-pane">
+                            <p>Our powerful tagging engine allows you to allocate 100% of your cloud spend accurately. Generate detailed reports for showback or chargeback, fostering accountability across teams.</p>
+                             <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Allocation+Chart" alt="Allocation Chart">
+                        </div>
+                        <div id="cap-4" class="capability-pane">
+                            <p>Our AI analyzes usage patterns to identify idle resources, oversized instances, and unattached storage. Get actionable recommendations to eliminate waste and reduce your bill instantly.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Waste+Reduction" alt="Waste Reduction">
+                        </div>
+                        <div id="cap-5" class="capability-pane">
+                            <p>Set automated policies to enforce your cloud governance rules. Receive alerts on budget thresholds, automatically terminate non-compliant resources, and maintain control as you scale.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Automation+Rules" alt="Automation Rules">
+                        </div>
+                        <div id="cap-6" class="capability-pane">
+                            <p>Set automated policies to enforce your cloud governance rules. Receive alerts on budget thresholds, automatically terminate non-compliant resources, and maintain control as you scale.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Automation+Rules" alt="Automation Rules">
+                        </div>
+                        <div id="cap-7" class="capability-pane">
+                            <p>Set automated policies to enforce your cloud governance rules. Receive alerts on budget thresholds, automatically terminate non-compliant resources, and maintain control as you scale.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Automation+Rules" alt="Automation Rules">
+                        </div>
+                        <div id="cap-8" class="capability-pane">
+                            <p>Set automated policies to enforce your cloud governance rules. Receive alerts on budget thresholds, automatically terminate non-compliant resources, and maintain control as you scale.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Automation+Rules" alt="Automation Rules">
+                        </div>
+                        <div id="cap-9" class="capability-pane">
+                            <p>Set automated policies to enforce your cloud governance rules. Receive alerts on budget thresholds, automatically terminate non-compliant resources, and maintain control as you scale.</p>
+                            <img src="https://placehold.co/800x450/1c182f/f0f4f8?text=Automation+Rules" alt="Automation Rules">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Solutions Section -->
+        <section id="solutions">
+            <div class="container">
+                <h2>Explore Our Solutions</h2>
+                <p class="section-subtitle">A comprehensive suite of tools designed to tackle your most complex cloud management challenges.</p>
+                <div class="solutions-grid">
+                    <div class="solution-card">
+                        <h3>Cloud Financial Management</h3>
+                        <p>Continuously analyze consumption trends, drive accountability against budgets, and find opportunities to optimize your cloud spend.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h3>Cloud Operations</h3>
+                        <p>Automate daily cloud operations, speed decision-making, and reduce risk with proactive insights and resource management.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h3>AWS Management</h3>
+                        <p>Manage your entire AWS environment as you scale while empowering users across the organization to drive operational efficiencies.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h3>Azure Management</h3>
+                        <p>Simplify financial management, find ways to optimize your Azure bill, and streamline workflows with custom policies.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h3>GCP Management</h3>
+                        <p>Manage your entire GCP environment with visibility into resource usage and costs and underutilized resource reclamation.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h3>Kubernetes Cost Analysis</h3>
+                        <p>Gain deep visibility into your K8s cost and usage, making it easy to allocate costs back to specific teams and projects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Resources Section -->
+        <section id="resources">
+            <div class="container">
+                <h2>A Recognized Leader in FinOps</h2>
+                <p class="section-subtitle">Explore our latest reports, articles, and achievements in the cloud financial management space.</p>
+                <div class="resources-grid">
+                    <!-- To add a new card, copy this whole 'resource-card' div and paste it below -->
+                    <div class="resource-card">
+                        <img src="https://placehold.co/600x400/110e1f/f0f4f8?text=ClarityOps" alt="Resource thumbnail">
+                        <div class="resource-card-content">
+                            <a href="#">Leadership and Opportunity Highlight in ClarityOps 2025</a>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="resource-card">
+                        <img src="https://placehold.co/600x400/110e1f/f0f4f8?text=ClarityOps" alt="Resource thumbnail">
+                        <div class="resource-card-content">
+                            <a href="#">ClarityOps Named Leader in Gartner Magic Quadrant for Cloud Financial Management</a>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="resource-card">
+                        <img src="https://placehold.co/600x400/110e1f/f0f4f8?text=ClarityOps" alt="Resource thumbnail">
+                        <div class="resource-card-content">
+                           <a href="#">ClarityOps Named Leader for Cloud Cost and Capacity Optimization 2025</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="read-more-btn-container">
+                    <a href="#" class="btn btn-secondary">Read More</a>
+                </div>
+            </div>
+        </section>
+
+<!-- Features Section -->
+<section id="features">
+  <div class="container">
+      <h2>The Command Center for Your Cloud</h2>
+      <p class="section-subtitle">Connect your accounts and get actionable insights in minutes. No complex setup, no hidden costs.</p>
+      <div class="features-grid">
+          <div class="card">
+              <div class="icon"><i class="fas fa-chart-pie"></i></div>
+              <h3>Unified Visibility</h3>
+              <p>A single pane of glass for all your spending across AWS, Azure, GCP, and granular Kubernetes cost allocation.</p>
+          </div>
+          <div class="card">
+              <div class="icon"><i class="fas fa-robot"></i></div>
+              <h3>AI-Powered Optimization</h3>
+              <p>Get precise rightsizing recommendations and let our AI Watchdog detect cost anomalies in real-time.</p>
+          </div>
+          <div class="card">
+              <div class="icon"><i class="fas fa-shield-halved"></i></div>
+              <h3>Automated Governance</h3>
+              <p>Use our policy-as-code engine to enforce tagging, set budgets, and stop non-compliant resource creation automatically.</p>
+          </div>
+      </div>
+  </div>
+</section>
+        <!-- Integrations Section -->
+        <section id="integrations">
+            <div class="container">
+                <h2>Connects With The Tools You Already Use</h2>
+                <div class="logos">
+                    <div class="logo-item" title="AWS"><i class="fab fa-aws"></i></div>
+                    <div class="logo-item" title="Azure"><i class="fab fa-microsoft"></i></div>
+                    <div class="logo-item" title="Google Cloud"><i class="fab fa-google"></i></div>
+                    <div class="logo-item" title="Kubernetes"><i class="fas fa-dharmachakra"></i></div>
+                    <div class="logo-item" title="Slack"><i class="fab fa-slack"></i></div>
+                    <div class="logo-item" title="Jira"><i class="fab fa-jira"></i></div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ClarityOps, Inc. All rights reserved. A new era of cloud management.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // JavaScript for mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const navLinkItems = document.querySelectorAll('.nav-links li a');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Simple hamburger to X animation
+            hamburger.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close menu when a link is clicked
+        navLinkItems.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+        // JavaScript for accordion (Key Capabilities)
+        const capabilityTabs = document.querySelectorAll('.capability-tab-link');
+        const capabilityPanes = document.querySelectorAll('.capability-pane');
+
+        capabilityTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Deactivate all tabs and panes
+                capabilityTabs.forEach(item => item.classList.remove('active'));
+                capabilityPanes.forEach(item => item.classList.remove('active'));
+
+                // Activate clicked tab
+                tab.classList.add('active');
+                
+                // Activate corresponding pane
+                const targetPane = document.getElementById(tab.dataset.target);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+
+        // JavaScript for 3D Globe
+        const globeContainer = document.querySelector('.hero-animation');
+        if (globeContainer) {
+            let scene, camera, renderer, globe, points;
+            let mouseX = 0, mouseY = 0;
+            let targetRotationX = 0;
+            let targetRotationY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            function initGlobe() {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(50, globeContainer.clientWidth / globeContainer.clientHeight, 0.1, 1000);
+                camera.position.z = 5;
+
+                // --- Inner Globe ---
+                const globeGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+                const globeMaterial = new THREE.MeshPhongMaterial({
+                    color: 0x1c182f, // surface color
+                    shininess: 10,
+                });
+                globe = new THREE.Mesh(globeGeometry, globeMaterial);
+                scene.add(globe);
+
+                // --- Outer Wireframe Globe ---
+                 const wireframeGeometry = new THREE.SphereGeometry(1.52, 32, 32);
+                 const wireframeMaterial = new THREE.MeshBasicMaterial({
+                     color: 0x00d1ff, // accent color
+                     wireframe: true,
+                     transparent: true,
+                     opacity: 0.15
+                 });
+                 const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
+                 scene.add(wireframe);
+
+                // --- Starfield/Points ---
+                const particlesGeometry = new THREE.BufferGeometry;
+                const particlesCnt = 5000;
+                const posArray = new Float32Array(particlesCnt * 3);
+                for (let i = 0; i < particlesCnt * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 10;
+                }
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const pointsMaterial = new THREE.PointsMaterial({
+                    size: 0.005,
+                    color: 0x00d1ff
+                });
+                points = new THREE.Points(particlesGeometry, pointsMaterial);
+                scene.add(points);
+
+                // --- Lighting ---
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+                scene.add(ambientLight);
+                const pointLight = new THREE.PointLight(0xe400ff, 1.5);
+                pointLight.position.set(5, 3, 5);
+                scene.add(pointLight);
+                 const pointLight2 = new THREE.PointLight(0x00d1ff, 1);
+                pointLight2.position.set(-5, -3, -5);
+                scene.add(pointLight2);
+
+                // --- Renderer ---
+                renderer = new THREE.WebGLRenderer({
+                    canvas: document.querySelector('#globe-canvas'),
+                    antialias: true,
+                    alpha: true
+                });
+                renderer.setSize(globeContainer.clientWidth, globeContainer.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                // --- Event Listeners ---
+                document.addEventListener('mousemove', onDocumentMouseMove);
+                window.addEventListener('resize', onWindowResize);
+            }
+
+            function onWindowResize() {
+                camera.aspect = globeContainer.clientWidth / globeContainer.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(globeContainer.clientWidth, globeContainer.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            }
+            
+            function onDocumentMouseMove(event) {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                targetRotationY = mouseX * 0.001;
+                targetRotationX = mouseY * 0.001;
+
+                // Smooth rotation
+                globe.rotation.y += 0.001 + (targetRotationY - globe.rotation.y) * 0.05;
+                globe.rotation.x += (targetRotationX - globe.rotation.x) * 0.05;
+                points.rotation.y += 0.0005;
+
+                renderer.render(scene, camera);
+            }
+
+            initGlobe();
+            animate();
+        }
+    </script>
+
+</body>
+</html>
+
